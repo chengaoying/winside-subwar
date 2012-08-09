@@ -112,7 +112,7 @@ public class DrawGame implements Common{
 			
 		}
 		
-		if(SubmarineGameEngine.isSupportFavor){
+		/*if(SubmarineGameEngine.isSupportFavor){
 			if(imgFavor == null){
 				try {
 					imgFavor = Image.createImage("/favorite.png");
@@ -124,7 +124,7 @@ public class DrawGame implements Common{
 			if(favorIndex==1){
 				DrawUtil.drawRect(g, 538, 429, 83, 86, 2, 0XFFFF00);
 			}
-		}
+		}*/
 	}
 	
 	/*ÓÎÏ·ÖÐ*/
