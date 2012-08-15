@@ -1159,6 +1159,7 @@ public class SubmarineGameEngine extends GameCanvasEngine implements Common{
 		attainmentId = year*100+(month+1);
 		isfreshman = gameRecord.loadGameRecord()==0 ?false:true;
 		//money = engineService.getBalance();
+		
 	}
 
 	private void processMainMenu() {
