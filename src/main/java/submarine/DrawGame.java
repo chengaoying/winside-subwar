@@ -3,12 +3,12 @@ package submarine;
 import java.io.IOException;
 
 import javax.microedition.lcdui.Font;
-import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 
 import cn.ohyeah.itvgame.model.GameRanking;
 /*import cn.ohyeah.stb.key.KeyCode;
 import cn.ohyeah.stb.key.KeyState;*/
+import cn.ohyeah.stb.game.SGraphics;
 import cn.ohyeah.stb.ui.DrawUtil;
 import cn.ohyeah.stb.ui.TextView;
 import cn.ohyeah.stb.util.RandomValue;
@@ -91,7 +91,7 @@ public class DrawGame implements Common{
 	public static String msg = ""; 
 	public static long msgTime,msgTime2;
 	/*主菜单*/
-	public void drawMainMenu(Graphics g, int index, int favorIndex){
+	public void drawMainMenu(SGraphics g, int index, int favorIndex){
 		if (imgMain1 == null || imgMain2 == null) {
 			try {
 				imgMain1 = Image.createImage("/main1.jpg");
@@ -128,12 +128,12 @@ public class DrawGame implements Common{
 	}
 	
 	/*游戏中*/
-	public void drawGamePlaying(Graphics g,int r){
+	public void drawGamePlaying(SGraphics g,int r){
 		drawMap(g,r);
 	}
 
 	/*游戏中的菜单*/
-	public void drawPalyingMenu(Graphics g, int index){
+	public void drawPalyingMenu(SGraphics g, int index){
 		if (imgMenu == null) {
 			try {
 				imgMenu = Image.createImage("/menu.png");
@@ -148,7 +148,7 @@ public class DrawGame implements Common{
 
 	/*没有游戏记录时提示*/
 	private int FontH = 15;
-	public void drawNoRecord(Graphics g){
+	public void drawNoRecord(SGraphics g){
 		Font curFont = Font.getFont(Font.FACE_MONOSPACE, Font.STYLE_PLAIN, Font.SIZE_MEDIUM);
 		g.setFont(curFont);
 		int tw = curFont.stringWidth("没有游戏记录") + 30;
@@ -181,7 +181,7 @@ public class DrawGame implements Common{
 	}*/
 	/*游戏地图*/
 	int x1=150, x2=433, x3=403;
-	private void drawMap(Graphics g, int r) {
+	private void drawMap(SGraphics g, int r) {
 		/*KeyState keyState = engine.getKeyState();
 		engine.addDebugUserMessage(getKeyCodeStr(keyState.getCurrentKeyCode())+" M:"+keyState.hasPersistMoveEvent()
 				+" LM:"+keyState.containsMoveEvent(KeyCode.LEFT)+" RM:"+keyState.containsMoveEvent(KeyCode.RIGHT));*/
@@ -298,7 +298,7 @@ public class DrawGame implements Common{
 	}
 	
 	/*难度选择界面*/
-	public void drawDiffucltyLevel(Graphics g, int index){
+	public void drawDiffucltyLevel(SGraphics g, int index){
 		if(imgDifficultLevel2==null||imgMain1==null||imgDifficultLock==null){
 			try {
 				imgDifficultLevel2 = Image.createImage("/difficultylevel2.png");
@@ -324,7 +324,7 @@ public class DrawGame implements Common{
 	}
 	
 	/*舰艇选择界面*/
-	public void drawSelectSubmarine(Graphics g, int selectL, int selectR, int index, int index2, boolean down, int confirm, int id, boolean isPurchase, boolean isPurchase2){
+	public void drawSelectSubmarine(SGraphics g, int selectL, int selectR, int index, int index2, boolean down, int confirm, int id, boolean isPurchase, boolean isPurchase2){
 		if (imgInfo==null || imgConfirm==null || imgDirection==null
 				|| imgMain3==null || imgSubmirine==null || imgLock==null 
 				|| imgPurchaseIcon==null || imgSubmarineName==null) {
@@ -401,7 +401,7 @@ public class DrawGame implements Common{
 	}
 	
 	/*爆炸效果一*/
-	public void drawBurstEffect(Graphics g, int mapx, int mapy, int frame){
+	public void drawBurstEffect(SGraphics g, int mapx, int mapy, int frame){
 		g.setClip(0, 0, gameMapX, gameMapY);
 		if (imgKa == null) {
 			try {
@@ -417,7 +417,7 @@ public class DrawGame implements Common{
 	}
 	
 	/*爆炸效果二*/
-	public void drawBurstEffect2(Graphics g, int mapx, int mapy){
+	public void drawBurstEffect2(SGraphics g, int mapx, int mapy){
 		g.setClip(0, 0, gameMapX, gameMapY);
 		if (imgKa == null) {
 			try {
@@ -442,7 +442,7 @@ public class DrawGame implements Common{
 	}
 	
 	/*主舰艇信息*/
-	public void drawInfo(Graphics g, Role own, int limitLife, int level, Propety propety){
+	public void drawInfo(SGraphics g, Role own, int limitLife, int level, Propety propety){
 		/*血量*/
 		//int currBoold = (own.nonceLife*90)/CreateRole.ownPara[own.id-100][2];
 		int currBoold = own.nonceLife*90/limitLife;
@@ -518,7 +518,7 @@ public class DrawGame implements Common{
 		engine.setDefaultFont();
 	}
 	/*游戏中的数字*/
-	private void drawNum(Graphics g, int num, int x, int y) {
+	private void drawNum(SGraphics g, int num, int x, int y) {
 		if(imgNumber2==null){
 			try {
 				imgNumber2 = Image.createImage("/number2.png");
@@ -534,7 +534,7 @@ public class DrawGame implements Common{
 	}
 	
 	/*关卡选择界面*/
-	public void drawSelectLevel(Graphics g, int level){
+	public void drawSelectLevel(SGraphics g, int level){
 		if(imgLevel==null || imgMain4==null || imgBiglevel==null 
 				|| imgPrompt==null ){
 			try {
@@ -573,7 +573,7 @@ public class DrawGame implements Common{
 	}
 	
 	/*帮助界面*/
-	public void drawHelp(Graphics g, int index){
+	public void drawHelp(SGraphics g, int index){
 		if(imgHelp==null||imgHelp2==null){
 			try {
 				imgHelp = Image.createImage("/help.jpg");
@@ -591,7 +591,7 @@ public class DrawGame implements Common{
 	
 	/*玩家通关信息*/
 	public int tempY=-200;
-	public void drawUserGameInfo(Graphics g, int passState, int level, Role own, int index, int difficultLevel){
+	public void drawUserGameInfo(SGraphics g, int passState, int level, Role own, int index, int difficultLevel){
 		if(imgMain3==null || imgGameInfo==null || imgPass==null || imgOver==null 
 				|| imgMedal==null || imgPassBg==null || imgPassText==null || imgPassFireWork==null
 				|| imgPassSelect==null){
@@ -714,7 +714,7 @@ public class DrawGame implements Common{
 		}
 	}
 	/*过关信息*/
-	private void info(Graphics g, int level, Role own, String str){
+	private void info(SGraphics g, int level, Role own, String str){
 		g.setColor(255, 255, 255);
 		Font largeFont = Font.getFont(Font.FACE_MONOSPACE, Font.STYLE_PLAIN, Font.SIZE_LARGE);
 		engine.setFont(19);
@@ -742,7 +742,7 @@ public class DrawGame implements Common{
 		engine.setDefaultFont();
 	}
 	/*勋章*/
-	private void drawMedal(Graphics g, int x_dest, int y_dest){
+	private void drawMedal(SGraphics g, int x_dest, int y_dest){
 		int x = x_dest, y = y_dest, x1=0, x2=0, x3=0, temp=0;
 		for(int l=0;l<SubmarineGameEngine.medal3;l++){
 			x1 = l*12;
@@ -768,7 +768,7 @@ public class DrawGame implements Common{
 	}
 	
 	/*游戏简介界面*/
-	public void drawGameIntro(Graphics g){
+	public void drawGameIntro(SGraphics g){
 		if(imgMain3==null || imgCallBoard==null || imgPrompt2==null){
 			try {
 				imgMain3 = Image.createImage("/main3.jpg");
@@ -792,7 +792,7 @@ public class DrawGame implements Common{
 	}
 	
 	/*商城界面*/
-	public void drawShop(Graphics g, int shopX, int shopY, Propety propety){
+	public void drawShop(SGraphics g, int shopX, int shopY, Propety propety){
 		if(imgShop==null){
 			try {
 				imgShop = Image.createImage("/shop.jpg");
@@ -848,7 +848,7 @@ public class DrawGame implements Common{
 		engine.setDefaultFont();
 	}
 	/*商城中的数字*/
-	private void drawShopNum(Graphics g, int num, int x, int y) {
+	private void drawShopNum(SGraphics g, int num, int x, int y) {
 		if(imgNumber2==null){
 			try {
 				imgNumber2 = Image.createImage("/number2.png");
@@ -864,7 +864,7 @@ public class DrawGame implements Common{
 	}
 	
 	/*道具购买状态*/
-	public void drawPurchaseState(Graphics g, boolean isEnoughMoney, int purchaseIndex){
+	public void drawPurchaseState(SGraphics g, boolean isEnoughMoney, int purchaseIndex){
 		if(imgPurchaseSuccess==null || imgPurchaseFail==null){
 			try {
 				imgPurchaseSuccess = Image.createImage("/purchaseSuccess.png");
@@ -883,7 +883,7 @@ public class DrawGame implements Common{
 	}
 	
 	/*充值界面*/
-	public void drawRecharge(Graphics g, int index){
+	public void drawRecharge(SGraphics g, int index){
 		if(imgRecharge==null){
 			try {
 				imgRecharge = Image.createImage("/recharge.jpg");
@@ -897,7 +897,7 @@ public class DrawGame implements Common{
 	}
 	
 	/*充值状态界面*/
-	public void drawRechargeSuccess(Graphics g, boolean isSuccess){
+	public void drawRechargeSuccess(SGraphics g, boolean isSuccess){
 		if(imgRechargeSuccess==null || imgRechargeFail==null){
 			try {
 				imgRechargeSuccess = Image.createImage("/rechargeSuccess.png");
@@ -915,7 +915,7 @@ public class DrawGame implements Common{
 	}
 	
 	/*游戏排行*/
-	public void drawRankList(Graphics g, GameRanking[] gameRanking){
+	public void drawRankList(SGraphics g, GameRanking[] gameRanking){
 		if(imgRanking==null||imgMedal==null){
 			try {
 				imgRanking = Image.createImage("/rankList.jpg");
