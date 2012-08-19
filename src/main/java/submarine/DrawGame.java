@@ -26,6 +26,7 @@ public class DrawGame implements Common{
 		this.engine = engine;
 	}	
 
+	private int fontSize = 14;
 	private Image imgMain1, imgMain2, imgMapUp, imgMapCenter, imgMapDown, imgMapRight, imgKa, imgInfo, imgConfirm, imgDirection,imgMain3, imgSubmirine;
 	private Image imgLevel, imgMain4, imgBiglevel, imgPrompt, imgRanking, imgShop;
 	private Image imgBlood, imgBlood2, imgMenu, imgNumber2, imgGk, imgGameInfo, imgPass, imgOver,imgMedal,imgWarning;
@@ -383,7 +384,7 @@ public class DrawGame implements Common{
 	
 		/*舰艇信息*/
 		g.setColor(28, 213, 233);
-		engine.setFont(19);
+		engine.setFont(fontSize);
 		g.drawString(str[id-100][0], 42, 123, TopLeft);
 		g.drawString(str[id-100][1], 140, 123, TopLeft);
 		g.drawString(str[id-100][2], 42, 153, TopLeft);
@@ -508,7 +509,7 @@ public class DrawGame implements Common{
 		if(!msg.equals("") && msgTime2-msgTime<3){
 			int color = g.getColor();
 			g.setColor(0xffffff);
-			engine.setFont(19);
+			engine.setFont(fontSize);
 			Font currFont = engine.getFont();//Font.getFont(Font.FACE_MONOSPACE, Font.STYLE_PLAIN, Font.SIZE_LARGE);
 			int x = 100+imgRules.getWidth()/2 - currFont.stringWidth(msg)/2;
 			g.drawImage(imgRules, 100, 195, TopLeft);
@@ -717,7 +718,7 @@ public class DrawGame implements Common{
 	private void info(SGraphics g, int level, Role own, String str){
 		g.setColor(255, 255, 255);
 		Font largeFont = Font.getFont(Font.FACE_MONOSPACE, Font.STYLE_PLAIN, Font.SIZE_LARGE);
-		engine.setFont(19);
+		engine.setFont(fontSize);
 		int x = screenW/2-largeFont.stringWidth(str)/2;
 		g.drawString(str, x, 482, TopLeft);
 		
@@ -782,7 +783,7 @@ public class DrawGame implements Common{
 		g.drawImage(imgCallBoard, 105, 0, TopLeft);
 		g.drawImage(imgPrompt2, 120, 138, TopLeft);
 		g.setColor(28, 213, 233);
-		engine.setFont(19);
+		engine.setFont(fontSize);
 		String info = "";
 		for(int i=0;i<gameIntro.length;i++){
 			info += gameIntro[i];
@@ -800,7 +801,7 @@ public class DrawGame implements Common{
 				e.printStackTrace();
 			}
 		}
-		engine.setFont(19);
+		engine.setFont(fontSize);
 		g.drawImage(imgShop, 0, 0, TopLeft);
 		if(shopX<2){
 			//g.drawImage(imgShopSelect, 143+shopX*220, 127+shopY*100, TopLeft);
@@ -926,7 +927,7 @@ public class DrawGame implements Common{
 		}
 		g.drawImage(imgRanking, 0, 0, TopLeft);
 		g.setColor(190, 255, 255);
-		engine.setFont(19);
+		engine.setFont(fontSize);
 		String ownRank="榜上无名!";
 		if(gameRanking!=null){
 			sortByMedalNum(gameRanking); //排序
