@@ -372,9 +372,9 @@ public class DrawGame implements Common{
 			g.drawImage(imgPurchaseIcon, 290, 381, TopLeft);
 			/*Ç±Í§¼Û¸ñ*/
 			if(index==1){
-				drawNum(g, 200, 465, 299);
+				drawNum(g, 100, 465, 299);
 			}else if(index==2){
-				drawNum(g, 200, 465, 299);
+				drawNum(g, 100, 465, 299);
 			}
 			
 		}else{
