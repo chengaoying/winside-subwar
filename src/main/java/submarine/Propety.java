@@ -186,14 +186,14 @@ public class Propety implements Common{
 		}
 		if(shopX==101){
 			int propId = 42;
-			boolean result = buyProp(propId, 1, 200, "äöÎÐºÅ");
+			boolean result = buyProp(propId, 1, 100, "äöÎÐºÅ");
 			if(result){
 				SubmarineGameEngine.isPurchase = true;
 			}
 		}
 		if(shopX==102){
 			int propId = 43;
-			boolean result = buyProp(propId, 1, 200, "É£ÄáºÅ");
+			boolean result = buyProp(propId, 1, 100, "É£ÄáºÅ");
 			if(result){
 				SubmarineGameEngine.isPurchase2 = true;
 			}
