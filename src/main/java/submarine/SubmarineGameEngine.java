@@ -7,9 +7,9 @@ import cn.ohyeah.itvgame.model.GameRanking;
 import cn.ohyeah.itvgame.model.GameRecord;
 import cn.ohyeah.stb.game.Configurations;
 import cn.ohyeah.stb.game.GameCanvasEngine;
+import cn.ohyeah.stb.game.Recharge;
 import cn.ohyeah.stb.game.SGraphics;
 import cn.ohyeah.stb.game.ServiceWrapper;
-import cn.ohyeah.stb.game.StateRecharge;
 import cn.ohyeah.stb.res.UIResource;
 import cn.ohyeah.stb.ui.PopupText;
 import cn.ohyeah.stb.util.DateUtil;
@@ -207,7 +207,8 @@ public class SubmarineGameEngine extends GameCanvasEngine implements Common{
 	}
 
 	private void processRecharge() {
-		StateRecharge recharge = new StateRecharge(this);
+		//StateRecharge recharge = new StateRecharge(this);
+		Recharge recharge = new Recharge(this);
 		recharge.recharge();
 	}
 
