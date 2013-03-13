@@ -27,7 +27,7 @@ public class DrawGame implements Common{
 	}	
 
 	private int fontSize = 14;
-	private Image imgMain1, imgMain2, imgMapUp, imgMapCenter, imgMapDown, imgMapRight, imgKa, imgInfo, imgConfirm, imgDirection,imgMain3, imgSubmirine;
+	private Image imgMain1, imgMain2, imgFavor, imgMapUp, imgMapCenter, imgMapDown, imgMapRight, imgKa, imgInfo, imgConfirm, imgDirection,imgMain3, imgSubmirine;
 	private Image imgLevel, imgMain4, imgBiglevel, imgPrompt, imgRanking, imgShop;
 	private Image imgBlood, imgBlood2, imgMenu, imgNumber2, imgGk, imgGameInfo, imgPass, imgOver,imgMedal,imgWarning;
 	private Image imgCallBoard, imgLock, imgPurchaseIcon, imgBoat, imgIceBerg, imgIceBerg2, imgPrompt2;
@@ -93,10 +93,11 @@ public class DrawGame implements Common{
 	public static long msgTime,msgTime2;
 	/*主菜单*/
 	public void drawMainMenu(SGraphics g, int index, int favorIndex){
-		if (imgMain1 == null || imgMain2 == null) {
+		if (imgMain1 == null || imgMain2 == null || imgFavor == null) {
 			try {
 				imgMain1 = Image.createImage("/main1.jpg");
 				imgMain2 = Image.createImage("/main2.png");
+				imgFavor = Image.createImage("/favorite.png");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -113,7 +114,7 @@ public class DrawGame implements Common{
 			
 		}
 		
-		/*if(SubmarineGameEngine.isSupportFavor){
+		if(SubmarineGameEngine.isSupportFavor){
 			if(imgFavor == null){
 				try {
 					imgFavor = Image.createImage("/favorite.png");
@@ -125,7 +126,7 @@ public class DrawGame implements Common{
 			if(favorIndex==1){
 				DrawUtil.drawRect(g, 538, 429, 83, 86, 2, 0XFFFF00);
 			}
-		}*/
+		}
 	}
 	
 	/*游戏中*/
