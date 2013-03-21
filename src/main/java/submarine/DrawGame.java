@@ -929,29 +929,37 @@ public class DrawGame implements Common{
 		g.drawImage(imgRanking, 0, 0, TopLeft);
 		g.setColor(190, 255, 255);
 		engine.setFont(fontSize,false);
-		String ownRank="榜上无名!";
+		String ownRank=null;
+		int rankNum = 0;
+		if(SubmarineGameEngine.hasRank){
+			//ownRank = String.valueOf(gameRanking[gameRanking.length-1].getRanking());
+			rankNum = gameRanking.length-1;
+		}else{
+			ownRank = "榜上无名!";
+			rankNum = gameRanking.length;
+		}
 		if(gameRanking!=null){
-			sortByMedalNum(gameRanking); //排序
-			for(int i=0;i<gameRanking.length;++i){
+			//sortByMedalNum(gameRanking); //排序
+			for(int i=0;i<rankNum;++i){
 				int ranking = gameRanking[i].getRanking();
 				String id = gameRanking[i].getUserId();
 				String str = "";
 				if(id.length()>=4){
-					str = id.substring(0, 4)+"****";
+					str = id.substring(0, 5)+"***";
 				}else{
 					str = id;
 				}
 				String scores = String.valueOf(gameRanking[i].getScores());
-				String hitNum = String.valueOf(gameRanking[i].getPlayDuration());
-				String medalNum = gameRanking[i].getRemark();
-				if(id.equals(engine.getEngineService().getUserId())){
+				//String hitNum = String.valueOf(gameRanking[i].getPlayDuration());
+				//String medalNum = gameRanking[i].getRemark();
+				/*if(id.equals(engine.getEngineService().getUserId())){
 					ownRank = String.valueOf(gameRanking[i].getRanking());
-				}
-				initMedalNum(medalNum);
+				}*/
+				//initMedalNum(medalNum);
 				TextView.showSingleLineText(g, String.valueOf(ranking), 35, 122+(i*35), 100, 35, 1);
 				TextView.showSingleLineText(g, str, 135, 122+(i*35), 125, 35, 1);
 				TextView.showSingleLineText(g, scores, 260, 122+(i*35), 100, 35, 1);
-				TextView.showSingleLineText(g, hitNum, 360, 122+(i*35), 105, 35, 1);
+				//TextView.showSingleLineText(g, hitNum, 360, 122+(i*35), 105, 35, 1);
 				/*int idW = 104-g.getFont().stringWidth(id)/2;
 				int scoresW = 260-g.getFont().stringWidth(scores)/2;
 				int hitNumW = 390-g.getFont().stringWidth(hitNum)/2;
@@ -960,10 +968,10 @@ public class DrawGame implements Common{
 				g.drawString(scores, scoresW, y, TopLeft);
 				g.drawString(hitNum, hitNumW, y, TopLeft);*/
 				//画勋章
-				drawMedal(g, 480, 130+(i*35));
+				//drawMedal(g, 480, 130+(i*35));
 			}
 		}
-		g.drawString(ownRank, 140, 498, TopLeft);
+		//g.drawString(ownRank, 140, 498, TopLeft);
 		engine.setDefaultFont();
 	}
 	/*分数相同时按勋章数量排序*/

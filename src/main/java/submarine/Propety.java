@@ -7,6 +7,7 @@ import cn.ohyeah.stb.game.ServiceWrapper;
 import cn.ohyeah.stb.res.UIResource;
 import cn.ohyeah.stb.ui.PopupConfirm;
 import cn.ohyeah.stb.ui.PopupText;
+import cn.ohyeah.stb.util.ConvertUtil;
 
 public class Propety implements Common{
 	
@@ -23,8 +24,8 @@ public class Propety implements Common{
 	public static int useLimitBooldPropNum;//使用加生命道具数量
 	public static int useMedigelPropNum;   //使用回血道具数量
 	
-	public static int[] propIds = {34,35,36,37,38,39,40,41};
-	public static int[] propPrice = {30,40,50,30,60,20,30,40};
+	public static int[] propIds = {34,35,36,37,38,39,40,41,42,43};
+	public static int[] propPrice = {30,40,50,30,60,20,30,40,100,100};
 	
 	private SubmarineGameEngine engine;
 	
@@ -32,26 +33,45 @@ public class Propety implements Common{
 		this.engine = engine;
 	}
 	
+	/*保存道具*/
+	public void saveProp(Propety p){
+		ServiceWrapper sw = engine.getServiceWrapper();
+		String datas = "id:"+propIds[0]+",price:"+propPrice[0]+",num:"+p.slowPropNum
+					   +"|id:"+	+propIds[1]+",price:"+propPrice[1]+",num:"+p.laserPropNum
+					   +"|id:"+	+propIds[2]+",price:"+propPrice[2]+",num:"+p.medigelPropNum
+					   +"|id:"+	+propIds[3]+",price:"+propPrice[3]+",num:"+p.airDropPropNum
+					   +"|id:"+	+propIds[4]+",price:"+propPrice[4]+",num:"+p.limitBooldPropNum
+					   +"|id:"+	+propIds[5]+",price:"+propPrice[5]+",num:"+p.energyPropNum
+					   +"|id:"+	+propIds[6]+",price:"+propPrice[6]+",num:"+p.hidePropNum
+					   +"|id:"+	+propIds[7]+",price:"+propPrice[7]+",num:"+p.dartlePropNum
+					   +"|id:"+	+propIds[8]+",price:"+propPrice[8]+",num:"+(engine.isPurchase==true?1:0)
+					   +"|id:"+	+propIds[9]+",price:"+propPrice[9]+",num:"+(engine.isPurchase2==true?1:0);
+		System.out.println("save prop datas:"+datas);
+		sw.savePropItem(datas);
+	}
+	
 	/*查询用户所有的道具(要购买的潜艇除外)*/
  	public void queryOwnAllProps(){
-		//OwnProp[] props = new OwnProp[8];
 		ServiceWrapper sw = engine.getServiceWrapper();
-		OwnProp[] props = sw.queryOwnPropList();
-		if(props==null){
+		String datas = sw.loadPropItem();
+		if(datas == null || datas == ""){
+			saveProp(this);
 			return;
 		}
-		/*for(int i=0;i<props.length;i++){
-			//props[ownProps[i].getPropId()-34] =  
-			
-			if(queryOwnProp(engineService, i+34)==null){
-				OwnProp ownProp = new OwnProp();
-				ownProp.setCount(0);
-				ownProp.setPropId(i+34);
-				props[i] = ownProp;
-			}else{
-				props[i] = queryOwnProp(engineService, i+34);
+		OwnProp[] props = new OwnProp[10];
+		String[] data1 = ConvertUtil.split(datas, "|");
+		for(int j=0;j<data1.length;j++){
+			OwnProp prop = new OwnProp();
+			String[] data2 = ConvertUtil.split(data1[j], ",");
+			String[] data3 = new String[data2.length];
+			for(int k=0;k<data2.length;k++){
+				data3[k] = ConvertUtil.split(data2[k], ":")[1];
 			}
-		}*/
+			prop.setPropId(Integer.parseInt(data3[0]));
+			prop.setCount(Integer.parseInt(data3[2]));
+			props[j] = prop;
+		}
+		
 		for(int i=0;i<props.length;i++){
 			if(props[i].getPropId()==37){
 				airDropPropNum = props[i].getCount();
@@ -71,10 +91,18 @@ public class Propety implements Common{
 				medigelPropNum = props[i].getCount();
 			}
 			else if (props[i].getPropId()==42) {
-				SubmarineGameEngine.isPurchase = true;
+				if(props[i].getCount()>0){
+					SubmarineGameEngine.isPurchase = true;
+				}else{
+					SubmarineGameEngine.isPurchase = false;
+				}
 			}
 			else if (props[i].getPropId()==43) {
-				SubmarineGameEngine.isPurchase2 = true;
+				if(props[i].getCount()>0){
+					SubmarineGameEngine.isPurchase2 = true;
+				}else{
+					SubmarineGameEngine.isPurchase2 = false;
+				}
 			}
 		}
 		System.out.println("airDropPropNum:"+airDropPropNum);
@@ -111,13 +139,13 @@ public class Propety implements Common{
 	private boolean buyProp(int propId, int propCount, int price, String propName) {
 		if (engine.getEngineService().getBalance() >= price) {
 			ServiceWrapper sw = engine.getServiceWrapper();
-			sw.purchaseProp(propId, propCount, "购买"+propName);
+			sw.consume(1, price);
 			PopupText pt = UIResource.getInstance().buildDefaultPopupText();
 			if (sw.isServiceSuccessful()) {
 				pt.setText("购买"+propName+"成功");
 			}
 			else {
-				pt.setText("购买"+propName+"失败, 原因: "+sw.getServiceMessage());
+				pt.setText("购买"+propName+"失败, 原因: "+sw.getMessage());
 				
 			}
 			pt.popup();

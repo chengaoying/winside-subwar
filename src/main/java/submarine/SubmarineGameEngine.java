@@ -12,6 +12,7 @@ import cn.ohyeah.stb.game.SGraphics;
 import cn.ohyeah.stb.game.ServiceWrapper;
 import cn.ohyeah.stb.res.UIResource;
 import cn.ohyeah.stb.ui.PopupText;
+import cn.ohyeah.stb.util.ConvertUtil;
 import cn.ohyeah.stb.util.DateUtil;
 import cn.ohyeah.stb.util.RandomValue;
 import cn.ohyeah.stb.key.KeyCode;
@@ -412,14 +413,9 @@ public class SubmarineGameEngine extends GameCanvasEngine implements Common{
 				isMenu=false;
 				updateProps();
 				status=GAME_STATUS_MAIN_MENU;
-				ServiceWrapper sw = getServiceWrapper();
-				GameRecord gr = sw.readRecord(attainmentId);
-				if(((gr==null && own.scores>0) || (gr!=null && gr.getScores()<=own.scores) && own.scores>0)){
-					gameRecord.saveGameRecord(own, boss, currLevel);
-				}
-				GameAttainment ga = sw.readAttainment(attainmentId);
-				if(((ga==null && own.scores>0) || (ga!=null && ga.getScores()<=own.scores) && own.scores>0)){
-					gameRecord.saveGameAttainment(own, boss, currLevel);
+				if(own.scores>0){
+					gameRecord.saveGameRecord(own, boss, currLevel, 1);
+					gameRecord.saveGameAttainment(own);
 				}
 				clearGamePlaying();
 			}
@@ -649,10 +645,8 @@ public class SubmarineGameEngine extends GameCanvasEngine implements Common{
 					g_status=GAME_SUB_STATUS_PLAYING_NPC;
 					difficultLevel=0;
 					passState=-1;
-					ServiceWrapper sw = getServiceWrapper();
-					GameAttainment ga = sw.readAttainment(attainmentId);
-					if(((ga==null && own.scores>0) || (ga.getScores()<=own.scores) && own.scores>0)){
-						gameRecord.saveGameAttainment(own, boss, currLevel);
+					if(own.scores>0){
+						gameRecord.saveGameAttainment(own);
 					}
 					clearGamePlaying();
 				}
@@ -708,10 +702,8 @@ public class SubmarineGameEngine extends GameCanvasEngine implements Common{
 					medal2++;
 				}
 				
-				ServiceWrapper sw = getServiceWrapper();
-				GameAttainment ga = sw.readAttainment(attainmentId);
-				if(((ga==null && own.scores>0) || (ga.getScores()<=own.scores) && own.scores>0)){
-					gameRecord.saveGameAttainment(own, boss, currLevel);
+				if(own.scores>0){
+					gameRecord.saveGameAttainment(own);
 				}
 				Propety.useHidePropNum=0;
 				Propety.useLimitBooldPropNum=0;
@@ -722,7 +714,7 @@ public class SubmarineGameEngine extends GameCanvasEngine implements Common{
 	
 	/*更新游戏使用的道具*/
 	private void updateProps(){
-		int[] nums = {propety.slowPropNum,
+		/*int[] nums = {propety.slowPropNum,
 				propety.laserPropNum,
 				propety.medigelPropNum,
 				propety.airDropPropNum,
@@ -731,7 +723,7 @@ public class SubmarineGameEngine extends GameCanvasEngine implements Common{
 				propety.hidePropNum,
 				propety.dartlePropNum
 				};
-		/*System.out.println("(Propety.slowPropNum-own.slowPropNum):"+(Propety.slowPropNum-own.slowPropNum));
+		System.out.println("(Propety.slowPropNum-own.slowPropNum):"+(Propety.slowPropNum-own.slowPropNum));
 		System.out.println("(Propety.laserPropNum-own.laserPropNum):"+(Propety.laserPropNum-own.laserPropNum));
 		System.out.println("(Propety.medigelPropNum-own.medigelPropNum):"+(Propety.medigelPropNum-own.medigelPropNum));
 		System.out.println("(Propety.airDropPropNum-own.airDropPropNum):"+(Propety.airDropPropNum-own.airDropPropNum));
@@ -739,8 +731,8 @@ public class SubmarineGameEngine extends GameCanvasEngine implements Common{
 		System.out.println("(Propety.energyPropNum-own.energyPropNum):"+(Propety.energyPropNum-own.energyPropNum));
 		System.out.println("(Propety.hidePropNum-own.hidePropNum):"+(Propety.hidePropNum-own.hidePropNum));
 		System.out.println("(Propety.dartlePropNum-own.dartlePropNum):"+(Propety.dartlePropNum-own.dartlePropNum));*/
-		ServiceWrapper sw = getServiceWrapper();
-		sw.synProps(Propety.propIds, nums);
+
+		propety.saveProp(propety);
 	}
 	
 	/*游戏下一关*/
@@ -783,14 +775,9 @@ public class SubmarineGameEngine extends GameCanvasEngine implements Common{
 					DrawGame.isFireOver=false;
 					passState = -2;
 				}
-				ServiceWrapper sw = getServiceWrapper();
-				GameRecord gr = sw.readRecord(attainmentId);
-				if(((gr==null && own.scores>0) || (gr!=null && gr.getScores()<=own.scores) && own.scores>0)){
-					gameRecord.saveGameRecord(own, boss, currLevel);
-				}
-				GameAttainment ga = sw.readAttainment(attainmentId);
-				if(((ga==null && own.scores>0) || (ga!=null && ga.getScores()<=own.scores) && own.scores>0)){
-					gameRecord.saveGameAttainment(own, boss, currLevel);
+				if(own.scores>0){
+					gameRecord.saveGameRecord(own, boss, currLevel, 1);
+					gameRecord.saveGameAttainment(own);
 				}
 			}else if(passState==-1){
 				/*status = GAME_STATUS_RANKING;
@@ -987,7 +974,7 @@ public class SubmarineGameEngine extends GameCanvasEngine implements Common{
 					g_status = GAME_SUB_STATUS_PLAYING_NPC;
 					status = GAME_STATUS_PLAYING;
 					if(isNewGame){
-						gameRecord.saveGameRecord(own, boss, currLevel); //开始新游戏覆盖之前的存档
+						gameRecord.saveGameRecord(own, boss, currLevel,1); //开始新游戏覆盖之前的存档
 						isNewGame = false;
 					}
 					nextLevel = false;
@@ -1144,8 +1131,6 @@ public class SubmarineGameEngine extends GameCanvasEngine implements Common{
 	
 	private void processInit() {
 		isSupportFavor = Configurations.getInstance().isFavorWayTelcomgd();
-		System.out.println("isSupportFavor:"+isSupportFavor);
-		//isSupportFavor = true;
 		status = GAME_STATUS_MAIN_MENU;
 		mainIndex = 0;
 		draw = new DrawGame(this); 
@@ -1158,8 +1143,7 @@ public class SubmarineGameEngine extends GameCanvasEngine implements Common{
 		int year = DateUtil.getYear(gst);
 		int month = DateUtil.getMonth(gst);
 		attainmentId = year*100+(month+1);
-		isfreshman = gameRecord.loadGameRecord()==0 ?false:true;
-		//money = engineService.getBalance();
+		isfreshman = gameRecord.loadGameRecord(1)==0 ?false:true;
 		
 	}
 
@@ -1211,7 +1195,7 @@ public class SubmarineGameEngine extends GameCanvasEngine implements Common{
 				warnEndTime = System.currentTimeMillis()/1000;
 				draw.clearMain();
 			} else if (mainIndex == 1) {// 继续游戏
-				int result = gameRecord.loadGameRecord();
+				int result = gameRecord.loadGameRecord(1);
 				if(result==0 && eatCount > 0){
 					status = GAME_STATUS_SELECT_LEVEL;
 					levelStime = System.currentTimeMillis()/1000;
@@ -1225,9 +1209,7 @@ public class SubmarineGameEngine extends GameCanvasEngine implements Common{
 			} else if (mainIndex == 2){ //游戏排行
 				status = GAME_STATUS_RANKING;
 				draw.clearMain();
-				ServiceWrapper sw = getServiceWrapper();
-				gameRanking =  sw.queryRankingList(0, 10);
-				
+				queryRanking();
 			} else if (mainIndex == 3) {// 游戏商城
 				status = GAME_STATUS_SHOP;
 				draw.clearMain();
@@ -1244,16 +1226,59 @@ public class SubmarineGameEngine extends GameCanvasEngine implements Common{
 			mainIndex=0;
 		}else{ //进入收藏
 			ServiceWrapper sw = getServiceWrapper();
-			sw.addFavoritegd();
+			sw.addFavor();
 			PopupText pop = UIResource.getInstance().buildDefaultPopupText();
 			if(sw.isServiceSuccessful()){
 				pop.setText("收藏成功!");
 				pop.popup();
 			}else{
-				pop.setText(sw.getServiceMessage());
+				pop.setText(sw.getMessage());
 				pop.popup();
 			}
 		}
+	}
+	
+	public static boolean hasRank;
+	private void queryRanking(){
+		ServiceWrapper sw = getServiceWrapper();
+		GameRanking grk = new GameRanking();
+		String datas = sw.loadRanking(3);
+		String[] data = ConvertUtil.split(datas, "|");
+		String[] str = ConvertUtil.split(data[data.length-1], ":");
+		int rankNum = 0;
+		if(str==null || str.equals("")){
+			if(data.length>10){
+				gameRanking = new GameRanking[10];
+			}else{
+				gameRanking = new GameRanking[data.length];
+			}
+			rankNum = gameRanking.length;
+		}else{
+			if(data.length-1>10){
+				gameRanking = new GameRanking[11];
+			}else{
+				gameRanking = new GameRanking[data.length];
+			}
+			rankNum = gameRanking.length-1;
+		}
+		
+		for(int i=0;i<rankNum;i++){
+			String[] data2 = ConvertUtil.split(data[i], ",");
+			grk.setUserId(data2[0]);
+			grk.setScores(Integer.parseInt(data2[2]));
+			grk.setRanking(Integer.parseInt(data2[3]));
+			gameRanking[i] = grk;
+		}
+		if(str==null || str[1]==null){
+			hasRank = false;
+			return;
+		}
+		String[] myRank = ConvertUtil.split(str[1], ",");
+		GameRanking g = new GameRanking();
+		g.setUserId(getEngineService().getUserId());
+		g.setRanking(Integer.parseInt(myRank[0]));
+		g.setScores(Integer.parseInt(myRank[1]));
+		hasRank = true;
 	}
 	
 	public void moveRole(int towards) {
