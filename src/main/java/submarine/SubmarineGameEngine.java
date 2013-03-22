@@ -1172,6 +1172,7 @@ public class SubmarineGameEngine extends GameCanvasEngine implements Common{
 		}
 	}
 
+	public int myRank;
 	private void processSubMenu() {
 		if(favorIndex==0){
 			if (mainIndex == 0) { //新游戏
@@ -1207,7 +1208,26 @@ public class SubmarineGameEngine extends GameCanvasEngine implements Common{
 			} else if (mainIndex == 2){ //游戏排行
 				status = GAME_STATUS_RANKING;
 				draw.clearMain();
-				queryRanking();
+				ServiceWrapper sw = getServiceWrapper();
+				String datas = sw.loadRanking(3);
+				String[] data = ConvertUtil.split(datas, "|");
+				String[] str = ConvertUtil.split(data[data.length-1], ":");
+				if(datas!=null){
+					if(str==null || str.equals("")){
+						if(data.length>10){
+							gameRanking = new GameRanking[10];
+						}else{
+							gameRanking = new GameRanking[data.length];
+						}
+					}else{
+						if(data.length-1>10){
+							gameRanking = new GameRanking[10];
+						}else{
+							gameRanking = new GameRanking[data.length-1];
+						}
+					}
+					myRank = sw.loadRanking(datas, gameRanking);
+				}
 			} else if (mainIndex == 3) {// 游戏商城
 				status = GAME_STATUS_SHOP;
 				draw.clearMain();
@@ -1236,7 +1256,7 @@ public class SubmarineGameEngine extends GameCanvasEngine implements Common{
 		}
 	}
 	
-	public static boolean hasRank;
+	/*public static boolean hasRank;
 	private void queryRanking(){
 		ServiceWrapper sw = getServiceWrapper();
 		GameRanking grk = null;
@@ -1279,7 +1299,7 @@ public class SubmarineGameEngine extends GameCanvasEngine implements Common{
 		g.setScores(Integer.parseInt(myRank[1]));
 		gameRanking[rankNum] = g;
 		hasRank = true;
-	}
+	}*/
 	
 	public void moveRole(int towards) {
 		switch (towards) {

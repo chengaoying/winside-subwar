@@ -930,17 +930,14 @@ public class DrawGame implements Common{
 		g.setColor(190, 255, 255);
 		engine.setFont(fontSize,false);
 		String ownRank=null;
-		int rankNum = 0;
-		if(SubmarineGameEngine.hasRank){
-			ownRank = String.valueOf(gameRanking[gameRanking.length-1].getRanking());
-			rankNum = gameRanking.length-1;
-		}else{
+		if(engine.myRank == 0){
 			ownRank = "∞Ò…œŒﬁ√˚!";
-			rankNum = gameRanking.length;
+		}else{
+			ownRank = String.valueOf(engine.myRank);
 		}
 		if(gameRanking!=null){
 			//sortByMedalNum(gameRanking); //≈≈–Ú
-			for(int i=0;i<rankNum;++i){
+			for(int i=0;i<gameRanking.length;++i){
 				int ranking = gameRanking[i].getRanking();
 				String id = gameRanking[i].getUserId();
 				String str = "";
