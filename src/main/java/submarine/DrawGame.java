@@ -932,7 +932,7 @@ public class DrawGame implements Common{
 		String ownRank=null;
 		int rankNum = 0;
 		if(SubmarineGameEngine.hasRank){
-			//ownRank = String.valueOf(gameRanking[gameRanking.length-1].getRanking());
+			ownRank = String.valueOf(gameRanking[gameRanking.length-1].getRanking());
 			rankNum = gameRanking.length-1;
 		}else{
 			ownRank = "榜上无名!";
@@ -959,7 +959,8 @@ public class DrawGame implements Common{
 				TextView.showSingleLineText(g, String.valueOf(ranking), 35, 122+(i*35), 100, 35, 1);
 				TextView.showSingleLineText(g, str, 135, 122+(i*35), 125, 35, 1);
 				TextView.showSingleLineText(g, scores, 260, 122+(i*35), 100, 35, 1);
-				//TextView.showSingleLineText(g, hitNum, 360, 122+(i*35), 105, 35, 1);
+				TextView.showSingleLineText(g, "---", 360, 122+(i*35), 105, 35, 1);
+				TextView.showSingleLineText(g, "---", 480, 122+(i*35), 105, 35, 1);
 				/*int idW = 104-g.getFont().stringWidth(id)/2;
 				int scoresW = 260-g.getFont().stringWidth(scores)/2;
 				int hitNumW = 390-g.getFont().stringWidth(hitNum)/2;
@@ -971,7 +972,7 @@ public class DrawGame implements Common{
 				//drawMedal(g, 480, 130+(i*35));
 			}
 		}
-		//g.drawString(ownRank, 140, 498, TopLeft);
+		g.drawString(ownRank, 140, 498, TopLeft);
 		engine.setDefaultFont();
 	}
 	/*分数相同时按勋章数量排序*/

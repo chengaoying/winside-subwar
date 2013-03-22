@@ -2,9 +2,7 @@ package submarine;
 
 import javax.microedition.midlet.MIDlet;
 
-import cn.ohyeah.itvgame.model.GameAttainment;
 import cn.ohyeah.itvgame.model.GameRanking;
-import cn.ohyeah.itvgame.model.GameRecord;
 import cn.ohyeah.stb.game.Configurations;
 import cn.ohyeah.stb.game.GameCanvasEngine;
 import cn.ohyeah.stb.game.Recharge;
@@ -1241,7 +1239,7 @@ public class SubmarineGameEngine extends GameCanvasEngine implements Common{
 	public static boolean hasRank;
 	private void queryRanking(){
 		ServiceWrapper sw = getServiceWrapper();
-		GameRanking grk = new GameRanking();
+		GameRanking grk = null;
 		String datas = sw.loadRanking(3);
 		String[] data = ConvertUtil.split(datas, "|");
 		String[] str = ConvertUtil.split(data[data.length-1], ":");
@@ -1261,9 +1259,10 @@ public class SubmarineGameEngine extends GameCanvasEngine implements Common{
 			}
 			rankNum = gameRanking.length-1;
 		}
-		
+		String[] data2 = null;
 		for(int i=0;i<rankNum;i++){
-			String[] data2 = ConvertUtil.split(data[i], ",");
+			data2 = ConvertUtil.split(data[i], ",");
+			grk = new GameRanking();
 			grk.setUserId(data2[0]);
 			grk.setScores(Integer.parseInt(data2[2]));
 			grk.setRanking(Integer.parseInt(data2[3]));
@@ -1278,6 +1277,7 @@ public class SubmarineGameEngine extends GameCanvasEngine implements Common{
 		g.setUserId(getEngineService().getUserId());
 		g.setRanking(Integer.parseInt(myRank[0]));
 		g.setScores(Integer.parseInt(myRank[1]));
+		gameRanking[rankNum] = g;
 		hasRank = true;
 	}
 	
