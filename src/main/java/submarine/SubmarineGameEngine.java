@@ -1210,24 +1210,8 @@ public class SubmarineGameEngine extends GameCanvasEngine implements Common{
 				draw.clearMain();
 				ServiceWrapper sw = getServiceWrapper();
 				String datas = sw.loadRanking(3);
-				String[] data = ConvertUtil.split(datas, "|");
-				String[] str = ConvertUtil.split(data[data.length-1], ":");
-				if(datas!=null){
-					if(str==null || str.equals("")){
-						if(data.length>10){
-							gameRanking = new GameRanking[10];
-						}else{
-							gameRanking = new GameRanking[data.length];
-						}
-					}else{
-						if(data.length-1>10){
-							gameRanking = new GameRanking[10];
-						}else{
-							gameRanking = new GameRanking[data.length-1];
-						}
-					}
-					myRank = sw.loadRanking(datas, gameRanking);
-				}
+				gameRanking = sw.loadRanking(datas, 0, 10);
+				myRank = sw.getMyRanking(datas);
 			} else if (mainIndex == 3) {// сно╥илЁг
 				status = GAME_STATUS_SHOP;
 				draw.clearMain();
