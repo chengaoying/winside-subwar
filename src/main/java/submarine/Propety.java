@@ -54,7 +54,7 @@ public class Propety implements Common{
  	public void queryOwnAllProps(){
 		ServiceWrapper sw = engine.getServiceWrapper();
 		String datas = sw.loadPropItem();
-		if(datas == null || datas == ""){
+		if(datas == null || datas == "" || datas.equals("0")){
 			saveProp(this);
 			return;
 		}

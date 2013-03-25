@@ -16,7 +16,7 @@ import cn.ohyeah.stb.util.RandomValue;
 import cn.ohyeah.stb.key.KeyCode;
 
 public class SubmarineGameEngine extends GameCanvasEngine implements Common{
-	
+	public static boolean bate_version = true;
 	public static boolean isSupportFavor = false;	
 	public static int ScrW = 0;
 	public static int ScrH = 0;
