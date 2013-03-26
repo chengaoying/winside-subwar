@@ -15,7 +15,7 @@ repositories {
 }
 
 dependencies {
-    refProvide 'ohyeah:winside-common:1.5.4'
+    refProvide 'ohyeah:winside-common:1.6.3'
 }
 
 apply from: "${System.getenv().IGBT_HOME}/build.gradle"

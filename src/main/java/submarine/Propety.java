@@ -139,7 +139,7 @@ public class Propety implements Common{
 	private boolean buyProp(int propId, int propCount, int price, String propName) {
 		if (engine.getEngineService().getBalance() >= price) {
 			ServiceWrapper sw = engine.getServiceWrapper();
-			sw.consume(1, price);
+			sw.consume(1, price, "¹ºÂò"+propName);
 			PopupText pt = UIResource.getInstance().buildDefaultPopupText();
 			if (sw.isServiceSuccessful()) {
 				pt.setText("¹ºÂò"+propName+"³É¹¦");

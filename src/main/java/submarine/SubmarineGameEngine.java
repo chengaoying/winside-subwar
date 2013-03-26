@@ -10,7 +10,6 @@ import cn.ohyeah.stb.game.SGraphics;
 import cn.ohyeah.stb.game.ServiceWrapper;
 import cn.ohyeah.stb.res.UIResource;
 import cn.ohyeah.stb.ui.PopupText;
-import cn.ohyeah.stb.util.ConvertUtil;
 import cn.ohyeah.stb.util.DateUtil;
 import cn.ohyeah.stb.util.RandomValue;
 import cn.ohyeah.stb.key.KeyCode;
@@ -1169,6 +1168,8 @@ public class SubmarineGameEngine extends GameCanvasEngine implements Common{
 			exit = true;
 			draw.clearMain();
 			clearGamePlaying();
+			ServiceWrapper sw = getServiceWrapper();
+			sw.userQuit();
 		}
 	}
 
@@ -1224,6 +1225,8 @@ public class SubmarineGameEngine extends GameCanvasEngine implements Common{
 				exit = true;
 				draw.clearMain();
 				clearGamePlaying();
+				ServiceWrapper sw = getServiceWrapper();
+				sw.userQuit();
 			}
 			mainIndex=0;
 		}else{ //Ω¯»Î ’≤ÿ

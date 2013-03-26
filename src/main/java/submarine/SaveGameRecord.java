@@ -69,7 +69,7 @@ public class SaveGameRecord implements Common{
 	public int loadGameRecord(int index){
 		ServiceWrapper sw = engine.getServiceWrapper();
 		String data = sw.loadRecord(index);
-		if(!sw.isServiceSuccessful() || data==null || data.equals("0")){
+		if(!sw.isServiceSuccessful() || data==null){
 			return -1;
 		}
 		String[] datas = ConvertUtil.split(data, ",");
